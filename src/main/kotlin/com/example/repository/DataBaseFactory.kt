@@ -11,6 +11,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.net.URI
 
 object DataBaseFactory{
 
@@ -26,10 +27,12 @@ object DataBaseFactory{
     private fun hikari():HikariDataSource{
         val config=HikariConfig()
         config.driverClassName ="org.postgresql.Driver"
-        config.jdbcUrl=System.getenv("JDBC_DATABASE_URL")
+        val uri=URI(System.getenv("JDBC_DATABASE_URL"))
+        val username=uri.userInfo.split(":").toTypedArray()[0]
+        val password=uri.userInfo.split(":").toTypedArray()[1]
+        config.jdbcUrl="jdbc:postgresql://"+ uri.host+":"+uri.port+uri.path+"?sslmode=require"+"&user=$username&password=$password"
         config.maximumPoolSize=3
         config.isAutoCommit=false
-        config.password="1234"
         config.transactionIsolation="TRANSACTION_REPEATABLE_READ"
         config.validate()
         return HikariDataSource(config)
