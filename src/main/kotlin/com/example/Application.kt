@@ -18,7 +18,7 @@ fun main() {
             }
         }
         configureRouting()
-    }.start(wait = true)
+    }.start(wait = false)
 
 
 }
