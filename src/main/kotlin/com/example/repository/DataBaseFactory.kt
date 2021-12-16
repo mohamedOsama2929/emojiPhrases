@@ -27,7 +27,7 @@ object DataBaseFactory{
     private fun hikari():HikariDataSource{
         val config=HikariConfig()
         config.driverClassName ="org.postgresql.Driver"
-        val uri=URI(System.getenv("JDBC_DATABASE_URL"))
+        val uri=URI(System.getenv("DATABASE_URL"))
         val username=uri.userInfo.split(":").toTypedArray()[0]
         val password=uri.userInfo.split(":").toTypedArray()[1]
         config.jdbcUrl="jdbc:postgresql://"+ uri.host+":"+uri.port+uri.path+"?sslmode=require"+"&user=$username&password=$password"

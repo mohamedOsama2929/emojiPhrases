@@ -14,11 +14,12 @@ group = "com.example"
 version = "0.0.1"
 application {
     mainClass.set("com.example.ApplicationKt")
-    tasks.create("stage") {
-        dependsOn("installDist")
-    }
+
 }
 
+tasks.create("stage") {
+    dependsOn("installDist")
+}
 repositories {
     mavenCentral()
 }
