@@ -8,14 +8,14 @@ import com.example.plugins.API_VERSION
 import com.example.plugins.redirect
 import com.example.repository.Repository
 import com.example.userNameValid
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
-import io.ktor.locations.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.sessions.*
-import io.ktor.locations.post
+import io.ktor.server.locations.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
+import io.ktor.server.locations.post
 import kotlinx.serialization.Serializable
 
 

@@ -4,16 +4,16 @@ import com.example.api.requests.PhrasesApiRequest
 import com.example.module.EPSession
 import com.example.plugins.*
 import com.example.repository.*
-import io.ktor.application.*
-import io.ktor.auth.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.http.*
-import io.ktor.locations.*
-import io.ktor.response.*
-import io.ktor.locations.get
-import io.ktor.locations.post
-import io.ktor.request.*
-import io.ktor.routing.*
-import io.ktor.sessions.*
+import io.ktor.server.locations.*
+import io.ktor.server.response.*
+import io.ktor.server.locations.get
+import io.ktor.server.locations.post
+import io.ktor.server.request.*
+import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 
 
 const val PHRASES="${API_VERSION}/phrases"

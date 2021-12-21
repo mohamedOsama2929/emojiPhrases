@@ -5,13 +5,13 @@ import com.example.hash
 import com.example.plugins.API_VERSION
 import com.example.plugins.redirect
 import com.example.repository.Repository
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.http.*
-import io.ktor.locations.post
-import io.ktor.locations.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
+import io.ktor.server.locations.post
+import io.ktor.server.locations.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
 const val LOGIN_ENDPOINT="$API_VERSION/login"
 

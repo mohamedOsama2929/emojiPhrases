@@ -13,7 +13,7 @@ data class EmojiPhrase(
 ) : java.io.Serializable
 
 object EmojiPhrases : IntIdTable() {
-    val user:Column<String> =varchar("user",20).index()
+    val user:Column<String> =varchar("user",20).index().references(Users.id)
     val emoji: Column<String> = varchar("emoji", 255)
     val phrase: Column<String> = varchar("phrase", 255)
 

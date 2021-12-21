@@ -7,6 +7,7 @@ val h2_version: String by project
 plugins {
     application
     kotlin("jvm") version "1.6.0"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 
@@ -20,32 +21,42 @@ application {
 tasks.create("stage") {
     dependsOn("installDist")
 }
+tasks{
+    shadowJar {
+        manifest {
+            attributes(Pair("Main-Class", "com.example.ApplicationKt"))
+        }
+    }
+}
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+        name = "ktor-eap"
+    }
 
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core:$ktor_version")
-    implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("io.ktor:ktor-jackson:1.6.7")
-    implementation("io.ktor:ktor-gson:1.6.7")
-    implementation("io.ktor:ktor-server-sessions:1.6.7")
-    testImplementation("io.ktor:ktor-server-tests:$ktor_version")
+    implementation("io.ktor:ktor-server-content-negotiation:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-content-negotiation:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-freemarker:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-auth:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-locations:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-status-pages:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-default-headers:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-content-negotiation:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-core:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-netty:2.0.0-eap-256")
+    implementation("io.ktor:ktor-server-sessions:2.0.0-eap-256")
+    implementation("io.ktor:ktor-client-serialization:2.0.0-eap-256")
+    implementation("io.ktor:ktor-client-gson:2.0.0-eap-256")
+    implementation("io.ktor:ktor-client-auth:2.0.0-eap-256")
+    implementation("io.ktor:ktor-auth-jwt:2.0.0-eap-256")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     implementation("com.ryanharter.ktor:ktor-moshi:1.0.1")
-
-    implementation ("io.ktor:ktor-client-serialization:$ktor_version")
-    implementation("io.ktor:ktor-client-gson:$ktor_version")
-
-    implementation("io.ktor:ktor-freemarker:$ktor_version")
-
-    implementation("io.ktor:ktor-client-auth:$ktor_version")
-    implementation("io.ktor:ktor-auth:$ktor_version")
-
-    implementation("io.ktor:ktor-locations:$ktor_version")
 
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
@@ -54,5 +65,7 @@ dependencies {
     implementation ("com.h2database:h2:$h2_version")
     implementation ("com.zaxxer:HikariCP:3.3.1")
     implementation ("org.postgresql:postgresql:42.3.1")
-    implementation("io.ktor:ktor-auth-jwt:$ktor_version")
+    testImplementation("io.ktor:ktor-server-tests:2.0.0-eap-256")
+
+    implementation("io.ktor:ktor-websockets:$ktor_version")
 }

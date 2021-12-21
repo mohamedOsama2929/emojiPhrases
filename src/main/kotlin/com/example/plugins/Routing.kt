@@ -1,8 +1,7 @@
 package com.example.plugins
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
 import com.example.JwtServices
+import com.example.api.response.Response
 import com.example.hash
 import com.example.hashKey
 import com.example.module.EPSession
@@ -10,19 +9,19 @@ import com.example.module.User
 import com.example.repository.DataBaseFactory
 import com.example.repository.EmojiPhrasesRepository
 import com.example.wepapp.*
+import com.google.gson.Gson
 import freemarker.cache.ClassTemplateLoader
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.auth.jwt.*
-import io.ktor.features.*
-import io.ktor.freemarker.*
-import io.ktor.gson.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
+import io.ktor.server.plugins.*
+import io.ktor.server.freemarker.*
 import io.ktor.http.*
-import io.ktor.locations.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.sessions.*
+import io.ktor.server.locations.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 import java.net.URI
 import java.util.concurrent.TimeUnit
 
@@ -30,7 +29,7 @@ fun Application.configureRouting() {
     install(DefaultHeaders)
 
     install(ContentNegotiation) {
-        gson()
+        Gson()
     }
     install(FreeMarker) {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
@@ -88,7 +87,7 @@ fun Application.configureRouting() {
     }    // Starting point for a Ktor app:
     routing {
         get("/") {
-            call.respondText("Kos omk!!")
+            call.respond(HttpStatusCode.OK,Response(success = true, code = HttpStatusCode.OK.value, message = "Kos omk", data = "kos omk!!"))
         }
         //api
         postPhrase(db)
