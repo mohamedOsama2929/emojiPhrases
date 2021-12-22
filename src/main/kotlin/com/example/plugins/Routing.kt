@@ -87,10 +87,11 @@ fun Application.configureRouting() {
     }    // Starting point for a Ktor app:
     routing {
         get("/") {
-            call.respond(Response(success = true, code = HttpStatusCode.OK.value, message = "Kos omk", data = "kos omk!!"))
+           // call.respond(Response(success = true, code = HttpStatusCode.OK.value, message = "Kos omk", data = "kos omk!!"))
+            call.respondText ("hello")
         }
         //api
-        postPhrase(db)
+      /*  postPhrase(db)*/
         phrasesApi(db, hashFunction)
         removePhrase(db)
         signIn(db, hashFunction)
