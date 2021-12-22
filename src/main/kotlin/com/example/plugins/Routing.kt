@@ -6,18 +6,18 @@ import com.example.hash
 import com.example.hashKey
 import com.example.module.EPSession
 import com.example.module.User
-import com.example.repository.DataBaseFactory
 import com.example.repository.EmojiPhrasesRepository
+import com.example.repository.LocalDataBaseFactory
 import com.example.wepapp.*
-import com.google.gson.Gson
 import freemarker.cache.ClassTemplateLoader
+import io.ktor.http.*
+import io.ktor.serializaion.gson.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import io.ktor.server.plugins.*
 import io.ktor.server.freemarker.*
-import io.ktor.http.*
 import io.ktor.server.locations.*
+import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -25,12 +25,9 @@ import io.ktor.server.sessions.*
 import java.net.URI
 import java.util.concurrent.TimeUnit
 
+@OptIn(KtorExperimentalLocationsAPI::class)
 fun Application.configureRouting() {
     install(DefaultHeaders)
-
-    install(ContentNegotiation) {
-        Gson()
-    }
     install(FreeMarker) {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
     }
@@ -44,8 +41,10 @@ fun Application.configureRouting() {
     val hashFunction = { s: String ->
         hash(s)
     }
-    DataBaseFactory.init()
-
+    LocalDataBaseFactory.init()
+    install(ContentNegotiation) {
+        gson ()
+    }
 
 
     /*  authentication {
@@ -72,32 +71,39 @@ fun Application.configureRouting() {
     val jwtServices = JwtServices()
     authentication {
         jwt("jwt") {
-            realm ="emojiphrases app"
+            realm = "emojiphrases app"
             verifier(
                 jwtServices.verifier
             )
             validate {
-                val payload=it.payload
-                val claim=payload.getClaim("id")
-                val claimString=claim.asString()
-                val user=db.userById(claimString)
+                val payload = it.payload
+                val claim = payload.getClaim("id")
+                val claimString = claim.asString()
+                val user = db.userById(claimString)
                 user
             }
         }
     }    // Starting point for a Ktor app:
     routing {
         get("/") {
-           // call.respond(Response(success = true, code = HttpStatusCode.OK.value, message = "Kos omk", data = "kos omk!!"))
-            call.respondText ("hello")
+            call.respond(
+                Response(
+                    success = true,
+                    code = HttpStatusCode.OK.value,
+                    message = "Kos omk",
+                    data = "kos omk!!"
+                )
+            )
+            //call.respondText ("hello")
         }
         //api
-      /*  postPhrase(db)*/
+        /*  postPhrase(db)*/
         phrasesApi(db, hashFunction)
         removePhrase(db)
         signIn(db, hashFunction)
         signUp(db, hashFunction)
         signOut()
-        login(db,jwtServices)
+        login(db, jwtServices)
     }
 
 }
@@ -119,4 +125,4 @@ fun ApplicationCall.verifyCode(date: Long, user: User, code: String, hashFunctio
                 it > 0 && it < TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS)
             }
 
-val ApplicationCall.apiUser get()=authentication.principal<User>()
+val ApplicationCall.apiUser get() = authentication.principal<User>()

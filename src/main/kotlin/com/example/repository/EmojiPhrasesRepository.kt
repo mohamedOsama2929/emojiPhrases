@@ -5,9 +5,8 @@ import com.example.module.EmojiPhrases
 import com.example.module.EmojiPhrases.emoji
 import com.example.module.User
 import com.example.module.Users
-import com.example.repository.DataBaseFactory.dbQuery
+import com.example.repository.LocalDataBaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
 import java.lang.IllegalArgumentException
 
 class EmojiPhrasesRepository : Repository {
